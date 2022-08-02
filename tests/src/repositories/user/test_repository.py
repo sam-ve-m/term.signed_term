@@ -20,7 +20,9 @@ async def test_find_user(get_collection_mock):
 @mark.asyncio
 @patch.object(Gladsheim, "error")
 @patch.object(UserRepository, "_UserRepository__get_collection")
-async def test_find_user_when_user_document_is_none(get_collection_mock, etria_error_mock):
+async def test_find_user_when_user_document_is_none(
+    get_collection_mock, etria_error_mock
+):
     find_one_result_dummy = None
     collection_mock = AsyncMock()
     collection_mock.find_one.return_value = find_one_result_dummy

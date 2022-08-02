@@ -5,7 +5,7 @@ from flask import request, Request, Response
 from heimdall_client import Heimdall, HeimdallStatusResponses
 
 from src.domain.enums.response.code import InternalCode
-from src.domain.exceptions.model import UnauthorizedError, FileNotFound
+from src.domain.exceptions.model import UnauthorizedError, FileNotFound, TermNotSigned
 from src.domain.models.request.model import TermModel
 from src.domain.models.response.model import ResponseModel
 from src.services.terms.service import TermService
@@ -56,6 +56,14 @@ async def get_signed_term(request: Request = request) -> Response:
 
     except FileNotFound as ex:
         message = "Term file not found"
+        Gladsheim.error(error=ex, message=message)
+        response = ResponseModel(
+            success=True, code=InternalCode.SUCCESS, message=message
+        ).build_http_response(status=HTTPStatus.OK)
+        return response
+
+    except TermNotSigned as ex:
+        message = "Term not signed by the user"
         Gladsheim.error(error=ex, message=message)
         response = ResponseModel(
             success=True, code=InternalCode.SUCCESS, message=message

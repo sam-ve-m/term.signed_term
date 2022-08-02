@@ -12,8 +12,8 @@ class UserRepository:
 
     @classmethod
     async def __get_collection(cls):
-        mongo_client = cls.infra.get_client()
         try:
+            mongo_client = cls.infra.get_client()
             database = mongo_client[cls.database]
             collection = database[cls.collection]
             return collection

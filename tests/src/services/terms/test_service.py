@@ -1,6 +1,7 @@
 import pytest
+from etria_logger import Gladsheim
 
-from src.domain.exceptions.model import FileNotFound
+from src.domain.exceptions.model import FileNotFound, TermNotSigned
 from src.domain.models.request.model import TermModel
 from src.repositories.terms.repository import (
     TermRepository,
@@ -11,6 +12,7 @@ from unittest.mock import patch
 from pytest import mark
 
 term_model_dummy = TermModel(file_type="term_refusal")
+term_model_not_signed_dummy = TermModel(file_type="term_application")
 link_dummy = "https://www.term_link_here.com"
 user_document_dummy = {"terms": {"term_refusal": {"version": 4}}}
 
@@ -41,3 +43,24 @@ async def test___get_user_term_version(find_user_mock):
     )
     assert find_user_mock.called
     assert result == 4
+
+
+@mark.asyncio
+@patch.object(
+    Gladsheim,
+    "error",
+)
+@patch.object(
+    UserRepository,
+    "find_user",
+    return_value=user_document_dummy,
+)
+async def test___get_user_term_version_when_term_is_not_signed(
+    find_user_mock, etria_mock
+):
+    with pytest.raises(TermNotSigned):
+        result = await TermService._TermService__get_user_term_version(
+            term_model_not_signed_dummy, "unique-id"
+        )
+    assert find_user_mock.called
+    assert etria_mock.called

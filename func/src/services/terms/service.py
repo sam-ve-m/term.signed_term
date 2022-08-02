@@ -1,3 +1,6 @@
+from etria_logger import Gladsheim
+
+from src.domain.exceptions.model import TermNotSigned
 from src.domain.models.request.model import TermModel
 from src.repositories.terms.repository import (
     TermRepository,
@@ -9,8 +12,18 @@ class TermService:
     @staticmethod
     async def __get_user_term_version(term: TermModel, unique_id: str) -> str:
         user_data = await UserRepository.find_user({"unique_id": unique_id})
-        term_version = user_data["terms"][term.file_type.value]["version"]
-        return term_version
+        try:
+            term_version = user_data["terms"][term.file_type.value]["version"]
+            return term_version
+        except Exception as ex:
+            message = "Term not signed by the user"
+            Gladsheim.error(
+                error=ex,
+                message=message,
+                term=term.file_type.value,
+                unique_id=unique_id,
+            )
+            raise TermNotSigned
 
     @classmethod
     async def get_user_signed_term_url(cls, term: TermModel, unique_id: str) -> str:

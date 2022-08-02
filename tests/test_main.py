@@ -7,7 +7,7 @@ from pytest import mark
 from werkzeug.test import Headers
 
 from main import get_signed_term
-from src.domain.exceptions.model import FileNotFound
+from src.domain.exceptions.model import FileNotFound, TermNotSigned
 from src.services.terms.service import TermService
 
 request_ok = "?file_type=term_refusal"
@@ -28,7 +28,7 @@ decoded_jwt_invalid = {
 @mark.asyncio
 @patch.object(Heimdall, "decode_payload")
 @patch.object(TermService, "get_user_signed_term_url")
-async def test_save_symbols_when_request_is_ok(
+async def test_get_signed_term_when_request_is_ok(
     get_signed_term_mock, decode_payload_mock
 ):
     get_signed_term_mock.return_value = "https://www.term_link_here.com"
@@ -40,10 +40,10 @@ async def test_save_symbols_when_request_is_ok(
         headers=Headers({"x-thebes-answer": "test"}),
     ).request as request:
 
-        save_symbols_result = await get_signed_term(request)
+        get_signed_term_result = await get_signed_term(request)
 
         assert (
-            save_symbols_result.data
+            get_signed_term_result.data
             == b'{"result": "https://www.term_link_here.com", "message": "Success", "success": true, "code": 0}'
         )
         assert get_signed_term_mock.called
@@ -53,7 +53,7 @@ async def test_save_symbols_when_request_is_ok(
 @patch.object(Heimdall, "decode_payload")
 @patch.object(Gladsheim, "error")
 @patch.object(TermService, "get_user_signed_term_url")
-async def test_save_symbols_when_image_is_not_found(
+async def test_get_signed_term_when_image_is_not_found(
     get_signed_term_mock, etria_mock, decode_payload_mock
 ):
     get_signed_term_mock.side_effect = FileNotFound()
@@ -65,11 +65,37 @@ async def test_save_symbols_when_image_is_not_found(
         headers=Headers({"x-thebes-answer": "test"}),
     ).request as request:
 
-        save_symbols_result = await get_signed_term(request)
+        get_signed_term_result = await get_signed_term(request)
 
         assert (
-            save_symbols_result.data
+            get_signed_term_result.data
             == b'{"result": null, "message": "Term file not found", "success": true, "code": 0}'
+        )
+        assert get_signed_term_mock.called
+        etria_mock.assert_called()
+
+
+@mark.asyncio
+@patch.object(Heimdall, "decode_payload")
+@patch.object(Gladsheim, "error")
+@patch.object(TermService, "get_user_signed_term_url")
+async def test_get_signed_term_when_term_is_not_signed(
+    get_signed_term_mock, etria_mock, decode_payload_mock
+):
+    get_signed_term_mock.side_effect = TermNotSigned()
+    decode_payload_mock.return_value = (decoded_jwt_ok, HeimdallStatusResponses.SUCCESS)
+
+    app = Flask(__name__)
+    with app.test_request_context(
+        request_ok,
+        headers=Headers({"x-thebes-answer": "test"}),
+    ).request as request:
+
+        get_signed_term_result = await get_signed_term(request)
+
+        assert (
+            get_signed_term_result.data
+            == b'{"result": null, "message": "Term not signed by the user", "success": true, "code": 0}'
         )
         assert get_signed_term_mock.called
         etria_mock.assert_called()
@@ -79,7 +105,7 @@ async def test_save_symbols_when_image_is_not_found(
 @patch.object(Gladsheim, "error")
 @patch.object(Heimdall, "decode_payload")
 @patch.object(TermService, "get_user_signed_term_url")
-async def test_save_symbols_when_jwt_is_invalid(
+async def test_get_signed_term_when_jwt_is_invalid(
     get_signed_term_mock, decode_payload_mock, etria_mock
 ):
     get_signed_term_mock.return_value = "https://www.term_link_here.com"
@@ -94,10 +120,10 @@ async def test_save_symbols_when_jwt_is_invalid(
         headers=Headers({"x-thebes-answer": "test"}),
     ).request as request:
 
-        save_symbols_result = await get_signed_term(request)
+        get_signed_term_result = await get_signed_term(request)
 
         assert (
-            save_symbols_result.data
+            get_signed_term_result.data
             == b'{"result": null, "message": "JWT invalid or not supplied", "success": false, "code": 30}'
         )
         assert not get_signed_term_mock.called
@@ -109,7 +135,7 @@ async def test_save_symbols_when_jwt_is_invalid(
 @patch.object(Heimdall, "decode_payload")
 @patch.object(Gladsheim, "error")
 @patch.object(TermService, "get_user_signed_term_url")
-async def test_save_symbols_when_request_is_invalid(
+async def test_get_signed_term_when_request_is_invalid(
     get_signed_term_mock, etria_mock, decode_payload_mock, requests
 ):
     get_signed_term_mock.return_value = True
@@ -121,10 +147,10 @@ async def test_save_symbols_when_request_is_invalid(
         headers=Headers({"x-thebes-answer": "test"}),
     ).request as request:
 
-        save_symbols_result = await get_signed_term(request)
+        get_signed_term_result = await get_signed_term(request)
 
         assert (
-            save_symbols_result.data
+            get_signed_term_result.data
             == b'{"result": null, "message": "Invalid parameters", "success": false, "code": 10}'
         )
         assert not get_signed_term_mock.called
@@ -135,7 +161,7 @@ async def test_save_symbols_when_request_is_invalid(
 @patch.object(Heimdall, "decode_payload")
 @patch.object(Gladsheim, "error")
 @patch.object(TermService, "get_user_signed_term_url")
-async def test_save_symbols_when_generic_exception_happens(
+async def test_get_signed_term_when_generic_exception_happens(
     get_signed_term_mock, etria_mock, decode_payload_mock
 ):
     get_signed_term_mock.side_effect = Exception("erro")
@@ -147,10 +173,10 @@ async def test_save_symbols_when_generic_exception_happens(
         headers=Headers({"x-thebes-answer": "test"}),
     ).request as request:
 
-        save_symbols_result = await get_signed_term(request)
+        get_signed_term_result = await get_signed_term(request)
 
         assert (
-            save_symbols_result.data
+            get_signed_term_result.data
             == b'{"result": null, "message": "Unexpected error occurred", "success": false, "code": 100}'
         )
         assert get_signed_term_mock.called

@@ -8,3 +8,7 @@ class UnauthorizedError(Exception):
 
 class UserDataNotFound(Exception):
     pass
+
+
+class TermNotSigned(Exception):
+    pass
