@@ -1,0 +1,55 @@
+include:
+- ./func/*
+kind: ArchiveUploadSpec
+name: func-ygA5
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: fn-get-signed-term-aaa2785c-306a-4bbe-a1cf-1fbd55f9db14
+  namespace: default
+spec:
+  deployment:
+    checksum: {}
+  environment:
+    name: env-get-signed-term
+    namespace: default
+  source:
+    checksum: {}
+    type: url
+    url: archive://func-ygA5
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2022-07-13T16:21:03Z"
+
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  creationTimestamp: null
+  name: fn-get-signed-term
+  namespace: default
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: newdeploy
+      MaxScale: 1
+      MinScale: 1
+      SpecializationTimeout: 120
+      TargetCPUPercent: 80
+    StrategyType: execution
+  concurrency: 500
+  environment:
+    name: env-get-signed-term
+    namespace: default
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    functionName: main.get_signed_term
+    packageref:
+      name: fn-get-signed-term-aaa2785c-306a-4bbe-a1cf-1fbd55f9db14
+      namespace: default
+  requestsPerPod: 1
+  resources: {}
