@@ -26,6 +26,7 @@ class TermRepository(ITermRepository):
         TermsFileType.TERM_BUSINESS_CONTINUITY_PLAN_DL_US: ".pdf",
         TermsFileType.TERM_CUSTOMER_RELATIONSHIP_SUMMARY_DL_PT: ".pdf",
         TermsFileType.TERM_CUSTOMER_RELATIONSHIP_SUMMARY_DL_US: ".pdf",
+        TermsFileType.TERM_OUROINVEST: ".pdf",
         TermsFileType.TERM_GRINGO_WORLD: ".pdf",
         TermsFileType.TERM_GRINGO_WORLD_GENERAL_ADVICES: ".pdf",
     }
