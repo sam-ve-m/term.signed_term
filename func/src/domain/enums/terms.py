@@ -24,6 +24,7 @@ class TermsFileType(Enum):
     TERM_CUSTOMER_RELATIONSHIP_SUMMARY_DL_US = (
         "term_customer_relationship_summary_dl_us"
     )
+    TERM_MISMATCH_PROFILE = "term_mismatch_profile"
     TERM_ALL_AGREEMENT_GRINGO_DL = "term_all_agreement_gringo_dl"
     TERM_OUROINVEST = "term_ouroinvest"
     TERM_GRINGO_WORLD = "term_gringo_world"

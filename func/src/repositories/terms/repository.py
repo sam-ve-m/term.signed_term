@@ -29,6 +29,7 @@ class TermRepository(ITermRepository):
         TermsFileType.TERM_OUROINVEST: ".pdf",
         TermsFileType.TERM_GRINGO_WORLD: ".pdf",
         TermsFileType.TERM_GRINGO_WORLD_GENERAL_ADVICES: ".pdf",
+        TermsFileType.TERM_MISMATCH_PROFILE: ".pdf",
     }
 
     @staticmethod
