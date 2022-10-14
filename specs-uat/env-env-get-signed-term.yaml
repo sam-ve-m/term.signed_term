@@ -52,7 +52,7 @@ spec:
         - name: MONGODB_USER_COLLECTION
           value: "users"
         - name: MONGO_CONNECTION_URL
-          value: "mongodb://bnd:jkl321pqr@172.30.10.75:41000/?authSource=admin&replicaSet=rslionx&readPreference=secondary"
+          value: "mongodb://jormungandr:MMhsdanNNds32Malmnwqyrte@172.30.18.223:41000,172.30.19.240:41000,172.30.19.71:41000/?authSource=admin&replicaSet=rslionx&readPreference=secondary&ssl=false"
         - name: LINK_EXPIRATION_TIME_IN_SECONDS
           value: "3600"
   version: 3
