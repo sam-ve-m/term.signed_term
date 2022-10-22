@@ -14,10 +14,10 @@ spec:
   ingressconfig:
     annotations: null
     host: '*'
-    path: /signed_term
+    path: /term/signed
     tls: ""
   method: ""
   methods:
   - GET
   prefix: ""
-  relativeurl: /signed_term
+  relativeurl: /term/signed

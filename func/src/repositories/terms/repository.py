@@ -18,13 +18,18 @@ class TermRepository(ITermRepository):
         TermsFileType.TERM_REFUSAL: ".pdf",
         TermsFileType.TERM_NON_COMPLIANCE: ".pdf",
         TermsFileType.TERM_RETAIL_LIQUID_PROVIDER: ".pdf",
-        TermsFileType.TERM_OPEN_ACCOUNT_DW: ".pdf",
-        TermsFileType.TERM_APPLICATION_DW: ".pdf",
-        TermsFileType.TERM_PRIVACY_POLICY_AND_DATA_SHARING_POLICY_DW: ".pdf",
-        TermsFileType.TERM_DISCLOSURES_AND_DISCLAIMERS: ".pdf",
-        TermsFileType.TERM_MONEY_CORP: ".pdf",
+        TermsFileType.TERM_AND_PRIVACY_POLICY_DATA_SHARING_POLICY_DL_PT: ".pdf",
+        TermsFileType.TERM_AND_PRIVACY_POLICY_DATA_SHARING_POLICY_DL_US: ".pdf",
+        TermsFileType.TERM_OPEN_ACCOUNT_DL_PT: ".pdf",
+        TermsFileType.TERM_OPEN_ACCOUNT_DL_US: ".pdf",
+        TermsFileType.TERM_BUSINESS_CONTINUITY_PLAN_DL_PT: ".pdf",
+        TermsFileType.TERM_BUSINESS_CONTINUITY_PLAN_DL_US: ".pdf",
+        TermsFileType.TERM_CUSTOMER_RELATIONSHIP_SUMMARY_DL_PT: ".pdf",
+        TermsFileType.TERM_CUSTOMER_RELATIONSHIP_SUMMARY_DL_US: ".pdf",
+        TermsFileType.TERM_OUROINVEST: ".pdf",
         TermsFileType.TERM_GRINGO_WORLD: ".pdf",
         TermsFileType.TERM_GRINGO_WORLD_GENERAL_ADVICES: ".pdf",
+        TermsFileType.TERM_MISMATCH_PROFILE: ".pdf",
     }
 
     @staticmethod
