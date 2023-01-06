@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from src.domain.enums.terms import TermsFileType
+from func.src.domain.enums.terms import TermsFileType
 
 
 class TermModel(BaseModel):

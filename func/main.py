@@ -4,11 +4,11 @@ from etria_logger import Gladsheim
 from flask import request, Request, Response
 from heimdall_client import Heimdall, HeimdallStatusResponses
 
-from src.domain.enums.response.code import InternalCode
-from src.domain.exceptions.model import UnauthorizedError, FileNotFound, TermNotSigned
-from src.domain.models.request.model import TermModel
-from src.domain.models.response.model import ResponseModel
-from src.services.terms.service import TermService
+from func.src.domain.enums.response.code import InternalCode
+from func.src.domain.exceptions.model import UnauthorizedError, FileNotFound, TermNotSigned
+from func.src.domain.models.request.model import TermModel
+from func.src.domain.models.response.model import ResponseModel
+from func.src.services.terms.service import TermService
 
 
 async def get_signed_term(request: Request = request) -> Response:

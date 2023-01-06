@@ -1,13 +1,13 @@
 import pytest
 from etria_logger import Gladsheim
 
-from src.domain.exceptions.model import FileNotFound, TermNotSigned
-from src.domain.models.request.model import TermModel
-from src.repositories.terms.repository import (
+from func.src.domain.exceptions.model import FileNotFound, TermNotSigned
+from func.src.domain.models.request.model import TermModel
+from func.src.repositories.terms.repository import (
     TermRepository,
 )
-from src.repositories.user.repository import UserRepository
-from src.services.terms.service import TermService
+from func.src.repositories.user.repository import UserRepository
+from func.src.services.terms.service import TermService
 from unittest.mock import patch
 from pytest import mark
 

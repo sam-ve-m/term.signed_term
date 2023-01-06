@@ -2,11 +2,11 @@ from typing import Optional
 
 from decouple import config
 
-from src.core.interfaces.repositories.terms.interface import (
+from func.src.core.interfaces.repositories.terms.interface import (
     ITermRepository,
 )
-from src.domain.enums.terms import TermsFileType
-from src.infrastructures.s3.s3 import S3Infrastructure
+from func.src.domain.enums.terms import TermsFileType
+from func.src.infrastructures.s3.s3 import S3Infrastructure
 
 
 class TermRepository(ITermRepository):
