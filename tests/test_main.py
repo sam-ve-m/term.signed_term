@@ -5,10 +5,16 @@ from flask import Flask
 from heimdall_client.bifrost import Heimdall, HeimdallStatusResponses
 from pytest import mark
 from werkzeug.test import Headers
+from decouple import RepositoryEnv, Config
+import logging.config
 
-from main import get_signed_term
-from src.domain.exceptions.model import FileNotFound, TermNotSigned
-from src.services.terms.service import TermService
+with patch.object(RepositoryEnv, "__init__", return_value=None):
+    with patch.object(Config, "__init__", return_value=None):
+        with patch.object(Config, "__call__"):
+            with patch.object(logging.config, "dictConfig"):
+                from func.main import get_signed_term
+                from func.src.domain.exceptions.model import FileNotFound, TermNotSigned
+                from func.src.services.terms.service import TermService
 
 request_ok = "?file_type=term_refusal"
 requests_invalid = ["?file_typ=term_refusal", "?file_type=term_reusal"]

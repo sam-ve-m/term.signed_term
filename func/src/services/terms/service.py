@@ -1,11 +1,11 @@
 from etria_logger import Gladsheim
 
-from src.domain.exceptions.model import TermNotSigned
-from src.domain.models.request.model import TermModel
-from src.repositories.terms.repository import (
+from func.src.domain.exceptions.model import TermNotSigned
+from func.src.domain.models.request.model import TermModel
+from func.src.repositories.terms.repository import (
     TermRepository,
 )
-from src.repositories.user.repository import UserRepository
+from func.src.repositories.user.repository import UserRepository
 
 
 class TermService:

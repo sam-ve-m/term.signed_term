@@ -2,9 +2,9 @@ from unittest.mock import patch
 
 from pytest import mark
 
-from src.domain.enums.terms import TermsFileType
-from src.infrastructures.s3.s3 import S3Infrastructure
-from src.repositories.terms.repository import (
+from func.src.domain.enums.terms import TermsFileType
+from func.src.infrastructures.s3.s3 import S3Infrastructure
+from func.src.repositories.terms.repository import (
     TermRepository,
 )
 
